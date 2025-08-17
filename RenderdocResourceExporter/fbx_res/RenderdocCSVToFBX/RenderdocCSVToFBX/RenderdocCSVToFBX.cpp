@@ -260,16 +260,12 @@ void ConvertCSV2FBX(const char *sourceCSVFile,
 	{
 		meshFbx->BeginPolygon(0);
 
-		pSrcFile->GetCellValue("IDX", iRow, iFaceID);
+		pSrcFile->GetCellValue("IDX", iRow + 2, iFaceID);
 		meshFbx->AddPolygon(iFaceID);
 		pSrcFile->GetCellValue("IDX", iRow + 1, iFaceID);
 		meshFbx->AddPolygon(iFaceID);
-		pSrcFile->GetCellValue("IDX", iRow + 2, iFaceID);
+		pSrcFile->GetCellValue("IDX", iRow, iFaceID);
 		meshFbx->AddPolygon(iFaceID);
-		// pSrcFile->GetCellValue("IDX", iRow + 3, iFaceID);
-		// meshFbx->AddPolygon(iFaceID);
-		// pSrcFile->GetCellValue("IDX", iRow + 4, iFaceID);
-		// meshFbx->AddPolygon(iFaceID);
 
 		meshFbx->EndPolygon();
 	}
