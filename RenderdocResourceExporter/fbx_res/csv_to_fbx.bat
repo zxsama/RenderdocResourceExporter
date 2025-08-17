@@ -4,6 +4,6 @@
 set current_path=%~dp0
 
 echo current_path=%current_path%
-start %current_path%RenderdocCSVToFBX.exe %1 %2 %3 %4 %5 %6
+start %current_path%RenderdocCSVToFBX.exe %1 %2 %3 %4 %5 %6 %7 %8
 
 ::pause

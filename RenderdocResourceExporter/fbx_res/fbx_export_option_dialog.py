@@ -29,6 +29,8 @@ class FbxExportOptionDialog:
         FCM.c_export_uv,
         FCM.c_export_uv2,
         FCM.c_export_uv3,
+        FCM.c_export_uv4,
+        FCM.c_export_uv5,
     ]
     widget_dict = {}
 

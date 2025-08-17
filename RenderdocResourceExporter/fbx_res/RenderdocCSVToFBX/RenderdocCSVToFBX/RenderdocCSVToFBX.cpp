@@ -4,7 +4,7 @@
 #include <iostream>
 #include <set>
 
-#include <fbxsdk.h>
+#include "fbxsdk.h"
 
 #include "CSVFile.h"
 #include "CommonMath.h"
@@ -21,11 +21,13 @@ struct MeshVertex
 	float u, v;
 	float u2, v2;
 	float u3, v3;
+	float u4, v4;
+	float u5, v5;
 };
 
-void ConvertCSV2FBX(const char* sourceCSVFile, 
-	bool export_normal, bool export_tangent, 
-	bool export_uv, bool export_uv2, bool export_uv3)
+void ConvertCSV2FBX(const char *sourceCSVFile,
+					bool export_normal, bool export_tangent,
+					bool export_uv, bool export_uv2, bool export_uv3, bool export_uv4, bool export_uv5)
 {
 	FbxManager* sdkManager;
 	FbxIOSettings* ioSettings;
@@ -88,6 +90,16 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 				pSrcFile->GetCellValue("TEXCOORD2.x", iRow, verticsMap[iVertexID].u3);
 				pSrcFile->GetCellValue("TEXCOORD2.y", iRow, verticsMap[iVertexID].v3);
 			}
+			if(export_uv4)
+			{
+				pSrcFile->GetCellValue("TEXCOORD3.x", iRow, verticsMap[iVertexID].u4);
+				pSrcFile->GetCellValue("TEXCOORD3.y", iRow, verticsMap[iVertexID].v4);
+			}
+			if(export_uv5)
+			{
+				pSrcFile->GetCellValue("TEXCOORD4.x", iRow, verticsMap[iVertexID].u5);
+				pSrcFile->GetCellValue("TEXCOORD4.y", iRow, verticsMap[iVertexID].v5);
+			}
 		}
 	}
 
@@ -114,6 +126,8 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 	FbxGeometryElementUV* meshUV = NULL;
 	FbxGeometryElementUV* meshUV2 = NULL;
 	FbxGeometryElementUV* meshUV3 = NULL;
+	FbxGeometryElementUV* meshUV4 = NULL;
+	FbxGeometryElementUV* meshUV5 = NULL;
 
 	if(export_normal)
 	{
@@ -135,6 +149,14 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 	if(export_uv3)
 	{
 		meshUV3 = meshFbx->CreateElementUV("UV2");
+	}
+	if(export_uv4)
+	{
+		meshUV4 = meshFbx->CreateElementUV("UV3");
+	}
+	if(export_uv5)
+	{
+		meshUV5 = meshFbx->CreateElementUV("UV4");
 	}
 
 	meshFbx->InitControlPoints(iTotalVerticsCount);
@@ -164,6 +186,16 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 	{
 		meshUV3->SetMappingMode(FbxGeometryElementUV::eByControlPoint);
 		meshUV3->SetReferenceMode(FbxGeometryElementUV::eDirect);
+	}
+	if(export_uv4)
+	{
+		meshUV4->SetMappingMode(FbxGeometryElementUV::eByControlPoint);
+		meshUV4->SetReferenceMode(FbxGeometryElementUV::eDirect);
+	}
+	if(export_uv5)
+	{
+		meshUV5->SetMappingMode(FbxGeometryElementUV::eByControlPoint);
+		meshUV5->SetReferenceMode(FbxGeometryElementUV::eDirect);
 	}
 
 	FbxVector4* meshVectors = meshFbx->GetControlPoints();
@@ -211,6 +243,16 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 			meshUV3->GetDirectArray().Add(
 				FbxVector2(verticsMap[index].u3, verticsMap[index].v3));
 		}
+		if(export_uv4)
+		{
+			meshUV4->GetDirectArray().Add(
+				FbxVector2(verticsMap[index].u4, verticsMap[index].v4));
+		}
+		if(export_uv5)
+		{
+			meshUV5->GetDirectArray().Add(
+				FbxVector2(verticsMap[index].u5, verticsMap[index].v5));
+		}
 	}
 
 	int iFaceID = 0;
@@ -224,6 +266,10 @@ void ConvertCSV2FBX(const char* sourceCSVFile,
 		meshFbx->AddPolygon(iFaceID);
 		pSrcFile->GetCellValue("IDX", iRow + 2, iFaceID);
 		meshFbx->AddPolygon(iFaceID);
+		// pSrcFile->GetCellValue("IDX", iRow + 3, iFaceID);
+		// meshFbx->AddPolygon(iFaceID);
+		// pSrcFile->GetCellValue("IDX", iRow + 4, iFaceID);
+		// meshFbx->AddPolygon(iFaceID);
 
 		meshFbx->EndPolygon();
 	}
@@ -265,6 +311,8 @@ int main(int argc, char* argv[])
 	bool export_uv = false;
 	bool export_uv2 = false;
 	bool export_uv3 = false;
+	bool export_uv4 = false;
+	bool export_uv5 = false;
 
 	if (strncmp(argv[2], "1", 1) == 0)
 	{
@@ -286,8 +334,16 @@ int main(int argc, char* argv[])
 	{
 		export_uv3 = true;
 	}
+	if (strncmp(argv[7], "1", 1) == 0)
+	{
+		export_uv4 = true;
+	}
+	if (strncmp(argv[8], "1", 1) == 0)
+	{
+		export_uv5 = true;
+	}
 
-	ConvertCSV2FBX(argv[1], 
-		export_normal, export_tangent, 
-		export_uv, export_uv2, export_uv3);
+	ConvertCSV2FBX(argv[1],
+				   export_normal, export_tangent,
+				   export_uv, export_uv2, export_uv3, export_uv4, export_uv5);
 }

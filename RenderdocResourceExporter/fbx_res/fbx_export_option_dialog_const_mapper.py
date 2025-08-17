@@ -26,6 +26,8 @@ class FbxExportOptionDialogConstMapper:
     c_export_uv = 'export_uv'
     c_export_uv2 = 'export_uv2'
     c_export_uv3 = 'export_uv3'
+    c_export_uv4 = 'export_uv4'
+    c_export_uv5 = 'export_uv5'
 
     # 文本字典
     text_en = {
@@ -39,6 +41,8 @@ class FbxExportOptionDialogConstMapper:
         c_export_uv : 'Export UV',
         c_export_uv2 : 'Export UV2',
         c_export_uv3 : 'Export UV3',
+        c_export_uv4 : 'Export UV4',
+        c_export_uv5 : 'Export UV5',
     }
     text_cn = {
         c_dialog_title : 'FBX导出选项',
@@ -51,6 +55,8 @@ class FbxExportOptionDialogConstMapper:
         c_export_uv : '导出 UV',
         c_export_uv2 : '导出 UV2',
         c_export_uv3 : '导出 UV3',
+        c_export_uv4 : '导出 UV4',
+        c_export_uv5 : '导出 UV5',
     }
 
     @staticmethod

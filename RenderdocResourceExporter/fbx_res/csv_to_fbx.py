@@ -41,13 +41,15 @@ class CsvToFbx:
         export_uv = self.get_arg(export_config_, FCM.c_export_uv)
         export_uv2 = self.get_arg(export_config_, FCM.c_export_uv2)
         export_uv3 = self.get_arg(export_config_, FCM.c_export_uv3)
+        export_uv4 = self.get_arg(export_config_, FCM.c_export_uv4)
+        export_uv5 = self.get_arg(export_config_, FCM.c_export_uv5)
         
         # 拼接bat路径
         current_folder = Path(__file__).absolute()
         bat_path = str(current_folder.parent) + '\\csv_to_fbx.bat'
 
         # 运行参数格式化
-        args = "%s %s %s %s %s %s %s " % (bat_path, csv_path_, export_normal, export_tangent, export_uv, export_uv2, export_uv3)
+        args = "%s %s %s %s %s %s %s %s %s " % (bat_path, csv_path_, export_normal, export_tangent, export_uv, export_uv2, export_uv3, export_uv4, export_uv5)
         # 通过执行命令行脚本来执行exe文件
         result = os.system(args)
 
